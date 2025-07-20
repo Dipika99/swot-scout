@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 // The function signature is updated to be more robust.
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: { reportId: string } },
 ) {
   try {

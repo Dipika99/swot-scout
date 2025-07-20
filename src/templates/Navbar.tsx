@@ -29,7 +29,7 @@ export const Navbar = () => {
           </>
         )}
       >
-
+        {null}
       </CenteredMenu>
     </Section>
   );

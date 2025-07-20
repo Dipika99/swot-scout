@@ -34,11 +34,22 @@ export default function ReportsPage() {
       .then((data) => {
         if (data.reports && data.reports.length > 0) {
           // Sort by createdAt descending
-          const sorted: Report[] = [...data.reports].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          const sorted: Report[] = [...data.reports].sort(
+            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          );
           setReports(sorted);
-          setSelectedReportId(sorted[0].id);
-          setSelectedReport(sorted[0]);
+          // Safely access the first item
+          const firstReport = sorted[0];
+          if (firstReport) {
+            setSelectedReportId(firstReport.id);
+            setSelectedReport(firstReport);
+          } else {
+            // This branch is very unlikely, but good to be safe
+            setSelectedReportId(null);
+            setSelectedReport(null);
+          }
         } else {
+          // If there are no reports
           setReports([]);
           setSelectedReportId(null);
           setSelectedReport(null);

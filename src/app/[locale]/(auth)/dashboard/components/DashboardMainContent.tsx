@@ -10,8 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { TitleBar } from '@/features/dashboard/TitleBar';
 
-import { ComparisonMode } from './ComparisonMode';
-
 type LLMResponse = {
   content: string;
   score: number;
@@ -80,12 +78,6 @@ const truncateText = (text: string, maxLength: number = 500) => {
   return `${trimmedText.substring(0, maxLength).trim()}...`;
 };
 
-// Count words in text
-const _countWords = (text: string) => {
-  const trimmedText = text.trim();
-  return trimmedText.split(/\s+/).filter(word => word.length > 0).length;
-};
-
 export function DashboardMainContent({
   responses,
   loading,
@@ -94,8 +86,6 @@ export function DashboardMainContent({
   onSaveReport,
 }: DashboardMainContentProps) {
   const t = useTranslations('DashboardIndex');
-  const [showComparisonMode, setShowComparisonMode] = useState(false);
-  const [savedComparisons, setSavedComparisons] = useState<any[]>([]);
   const [selectedInsight, setSelectedInsight] = useState<{ category: string; content: string; score: number } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -138,35 +128,10 @@ export function DashboardMainContent({
     setTimeout(() => setShowSuccess(false), 2500);
   };
 
-  const handleSaveComparison = (comparisonData: any) => {
-    setSavedComparisons(prev => [...prev, { ...comparisonData, id: Date.now() }]);
-  };
-
-  const handleLoadComparison = (_id: number) => {
-    // Load comparison logic here
-  };
-
-  const insightsForComparison = Object.entries(segmentResponses || {}).map(([category, response]) => ({
-    category,
-    text: response.content,
-    segment: selectedSegment || '',
-  }));
-
   const handleReadMore = (category: string, content: string, score: number) => {
     setSelectedInsight({ category, content, score });
     setIsModalOpen(true);
   };
-
-  if (showComparisonMode) {
-    return (
-      <ComparisonMode
-        insights={insightsForComparison}
-        onSaveComparison={handleSaveComparison}
-        onLoadComparison={handleLoadComparison}
-        savedComparisons={savedComparisons}
-      />
-    );
-  }
 
   return (
     <main className="flex-1 overflow-auto p-8">
@@ -176,11 +141,6 @@ export function DashboardMainContent({
           {segmentResponses && !pathname.includes('/reports') && (
             <Button onClick={handleSaveReport} variant="outline" disabled={alreadySaved}>
               💾 Save Report
-            </Button>
-          )}
-          {Object.keys(responses).length > 1 && (
-            <Button onClick={() => setShowComparisonMode(true)} variant="outline">
-              🔍 Comparison Mode
             </Button>
           )}
         </div>
@@ -239,7 +199,6 @@ export function DashboardMainContent({
             const trimmedContent = response.content.trim();
             // You can choose between character count or word count
             const isLongContent = trimmedContent.length > 300; // Character count
-            // const isLongContent = _countWords(trimmedContent) > 100; // Word count (uncomment to use)
             const displayContent = isLongContent ? truncateText(response.content) : response.content;
 
             return (
@@ -327,12 +286,12 @@ export function DashboardMainContent({
       </Dialog>
 
       {showSuccess && (
-        <div className="animate-fade-in fixed right-6 top-6 z-50 rounded-lg bg-green-600 px-6 py-3 text-white shadow-lg">
+        <div className="fixed right-6 top-6 z-50 rounded-lg bg-green-600 px-6 py-3 text-white shadow-lg">
           {saveMessage}
         </div>
       )}
       {saveMessage && !showSuccess && (
-        <div className="animate-fade-in fixed right-6 top-6 z-50 rounded-lg bg-blue-600 px-6 py-3 text-white shadow-lg">
+        <div className="fixed right-6 top-6 z-50 rounded-lg bg-blue-600 px-6 py-3 text-white shadow-lg">
           {saveMessage}
         </div>
       )}
