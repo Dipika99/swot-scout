@@ -11,20 +11,4 @@ model User {
   id    Int    @id @default(autoincrement())
   email String @unique
   name  String?
-}
-
-model Report {
-  id        String    @id @default(uuid())
-  title     String
-  createdAt DateTime  @default(now())
-  insights  Insight[]
-}
-
-model Insight {
-  id        String   @id @default(uuid())
-  report    Report   @relation(fields: [reportId], references: [id])
-  reportId  String
-  category  String
-  content   String
-  createdAt DateTime @default(now())
 } 

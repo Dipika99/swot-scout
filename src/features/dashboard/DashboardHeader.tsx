@@ -1,8 +1,7 @@
 'use client';
 
-import { OrganizationSwitcher, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
+// import { useLocale } from 'next-intl'; // removed, no longer used
 
 import { ActiveLink } from '@/components/ActiveLink';
 import { ToggleMenuButton } from '@/components/ToggleMenuButton';
@@ -13,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Logo } from '@/templates/Logo';
-import { getI18nPath } from '@/utils/Helpers';
+// import { getI18nPath } from '@/utils/Helpers'; // removed, no longer used
 
 export const DashboardHeader = (props: {
   menu: {
@@ -21,7 +20,7 @@ export const DashboardHeader = (props: {
     label: string;
   }[];
 }) => {
-  const locale = useLocale();
+  // const locale = useLocale(); // removed, no longer used
 
   return (
     <>
@@ -42,21 +41,7 @@ export const DashboardHeader = (props: {
           <path d="M17 5 7 19" />
         </svg>
 
-        <OrganizationSwitcher
-          organizationProfileMode="navigation"
-          organizationProfileUrl={getI18nPath(
-            '/dashboard/organization-profile',
-            locale,
-          )}
-          afterCreateOrganizationUrl="/dashboard"
-          hidePersonal
-          skipInvitationScreen
-          appearance={{
-            elements: {
-              organizationSwitcherTrigger: 'max-w-28 sm:max-w-52',
-            },
-          }}
-        />
+        {/* OrganizationSwitcher removed */}
 
         <nav className="ml-3 max-lg:hidden">
           <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_a:hover]:opacity-100 [&_a]:opacity-75">
@@ -90,17 +75,7 @@ export const DashboardHeader = (props: {
 
           {/* PRO: Dark mode toggle button */}
 
-          <li>
-            <UserButton
-              userProfileMode="navigation"
-              userProfileUrl="/dashboard/user-profile"
-              appearance={{
-                elements: {
-                  rootBox: 'px-2 py-1.5',
-                },
-              }}
-            />
-          </li>
+          {/* UserButton removed */}
         </ul>
       </div>
     </>
