@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Ignore VSCode settings
+.vscode/
+
+# macOS system files
+.DS_Store
