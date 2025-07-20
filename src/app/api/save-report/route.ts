@@ -43,7 +43,6 @@ export async function POST(req: NextRequest) {
         response: responseText,
         modelVersion: insight.modelVersion || 'unknown',
         processingTime: insight.processingTime || 0,
-        score: insight.score ?? null,
       });
     }
 
