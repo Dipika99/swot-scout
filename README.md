@@ -13,6 +13,14 @@ A web application that uses LLMs (via OpenAI) to generate SWOT (Strengths, Weakn
 
 👉 [Try it here](https://swot-scout.vercel.app/swot-scout)
 
+## 📸 Screenshot
+
+
+<img width="1319" height="725" alt="Screenshot 2025-07-20 at 15 06 03" src="https://github.com/user-attachments/assets/2c54864d-6f51-4ca2-be8d-c92747239b17" />
+
+
+
+
 ---
 
 > This project is based on the [ixartz/SaaS-Boilerplate](https://github.com/ixartz/SaaS-Boilerplate), which provides a modern full-stack foundation using Next.js, Tailwind CSS, TypeScript, Prisma, and Clerk.
