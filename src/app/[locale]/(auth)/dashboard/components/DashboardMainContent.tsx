@@ -110,7 +110,7 @@ export function DashboardMainContent({
     if (!responses[selectedSegment]) {
       return;
     }
-    onSaveReport?.({
+    const report = {
       title: `SWOT Analysis - ${selectedSegment}`,
       segment: selectedSegment,
       insights: Object.entries(responses[selectedSegment]).map(([category, response]) => ({
@@ -121,7 +121,15 @@ export function DashboardMainContent({
         processingTime: response.processingTime || 0,
       })),
       timestamp: new Date().toISOString(),
-    });
+    };
+    if (onSaveReport) {
+      onSaveReport(report);
+    } else {
+      // Save to localStorage if no onSaveReport handler is provided
+      const existing = JSON.parse(localStorage.getItem('reports') || '[]');
+      existing.push(report);
+      localStorage.setItem('reports', JSON.stringify(existing));
+    }
     setShowSuccess(true);
     setAlreadySaved(true);
     setSaveMessage('Report saved successfully!');

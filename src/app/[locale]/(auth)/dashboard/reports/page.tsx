@@ -1,5 +1,4 @@
 'use client';
-import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
 import { DashboardMainContent } from '../components/DashboardMainContent';
@@ -18,18 +17,13 @@ type Report = ReportSummary & {
 };
 
 export default function ReportsPage() {
-  const { user } = useUser();
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedReportId, setSelectedReportId] = useState<number | null>(null);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user?.primaryEmailAddress?.emailAddress) {
-      return;
-    }
-    setLoading(true);
-    fetch(`/api/reports?userId=${encodeURIComponent(user.primaryEmailAddress.emailAddress)}`)
+    fetch(`/api/reports?userId=${encodeURIComponent('fallback@example.com')}`)
       .then(res => res.json())
       .then((data) => {
         if (data.reports && data.reports.length > 0) {
@@ -56,7 +50,7 @@ export default function ReportsPage() {
         }
       })
       .finally(() => setLoading(false));
-  }, [user?.primaryEmailAddress?.emailAddress]);
+  }, []);
 
   useEffect(() => {
     if (!selectedReportId) {
@@ -65,10 +59,6 @@ export default function ReportsPage() {
     const report = reports.find(r => r.id === selectedReportId) || null;
     setSelectedReport(report);
   }, [selectedReportId, reports]);
-
-  if (!user) {
-    return null;
-  }
 
   return (
     <div className="flex min-h-screen bg-gray-50">

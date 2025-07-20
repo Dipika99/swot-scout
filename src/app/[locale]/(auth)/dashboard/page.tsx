@@ -1,6 +1,5 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
 import { useState } from 'react';
 
 import { DashboardMainContent } from './components/DashboardMainContent';
@@ -34,7 +33,6 @@ type LLMResponse = {
 };
 
 const DashboardIndexPage = () => {
-  const { user } = useUser();
   const [product, setProduct] = useState<string>('');
   const [objective, setObjective] = useState<string>('');
   const [segment, setSegment] = useState<string>('');
@@ -158,7 +156,7 @@ const DashboardIndexPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           reportData: {
-            userId: user?.primaryEmailAddress?.emailAddress || 'anonymous',
+            userId: 'anonymous',
             title: reportData.title,
             product,
             objective,
