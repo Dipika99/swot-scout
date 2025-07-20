@@ -1,60 +1,31 @@
-'use client';
+import { UserProfile } from '@clerk/nextjs';
+import { useTranslations } from 'next-intl';
 
-import { DashboardMainContent } from '../../components/DashboardMainContent';
-import { DashboardSidebar } from '../../components/DashboardSidebar';
-import { useDashboardState } from '../../hooks/useDashboardState';
+import { TitleBar } from '@/features/dashboard/TitleBar';
+import { getI18nPath } from '@/utils/Helpers';
 
-const DashboardIndexPage = () => {
-  const {
-    product,
-    objective,
-    segment,
-    products,
-    objectives,
-    segments,
-    responses,
-    loading,
-    error,
-    handleSetProduct,
-    handleSetObjective,
-    handleSetSegment,
-    runLLMPrompts,
-  } = useDashboardState();
-
-  const handleSubmit = () => {
-    runLLMPrompts();
-  };
-
-  const handleSaveReport = async (_reportData: any) => {
-    // This would integrate with the database save functionality
-    // You can implement the same save logic here as in the main dashboard
-  };
+const UserProfilePage = (props: { params: { locale: string } }) => {
+  const t = useTranslations('UserProfile');
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DashboardSidebar
-        products={products}
-        objectives={objectives}
-        segments={segments}
-        product={product}
-        objective={objective}
-        segment={segment}
-        setProduct={handleSetProduct}
-        setObjective={handleSetObjective}
-        setSegment={handleSetSegment}
-        onSubmit={handleSubmit}
-        loading={loading}
+    <>
+      <TitleBar
+        title={t('title_bar')}
+        description={t('title_bar_description')}
       />
 
-      <DashboardMainContent
-        responses={responses}
-        loading={loading}
-        selectedSegment={segment}
-        error={error}
-        onSaveReport={handleSaveReport}
+      <UserProfile
+        routing="path"
+        path={getI18nPath('/dashboard/user-profile', props.params.locale)}
+        appearance={{
+          elements: {
+            rootBox: 'w-full',
+            cardBox: 'w-full flex',
+          },
+        }}
       />
-    </div>
+    </>
   );
 };
 
-export default DashboardIndexPage;
+export default UserProfilePage;
